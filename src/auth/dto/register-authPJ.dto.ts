@@ -1,5 +1,5 @@
-
-import { IsEmail, IsNotEmpty, IsNumberString, IsPhoneNumber, IsString, MaxLength, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString, MaxLength, MinLength, Validate } from "class-validator";
+import { CnpjValidator } from "src/common/validators/cpf-cnpj.validator";
 
 
 export class RegisterAuthPJDto {
@@ -14,15 +14,14 @@ export class RegisterAuthPJDto {
     @IsNotEmpty()
     email: string;
 
-    //mudar para @IsStrongPassword no futuro
+    //Mudar para @IsStrongPassword no futuro
     @IsString()
     @IsNotEmpty()
     @MinLength(8)
     password: string;
 
-
-    @IsNumberString()
     @IsNotEmpty()
+    @Validate(CnpjValidator)
     cnpj: string;
 
     @IsPhoneNumber("BR")

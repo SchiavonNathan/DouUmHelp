@@ -1,23 +1,30 @@
-import { IsEmail, IsNotEmpty, IsNumberString, IsPhoneNumber, IsString, MaxLength, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, ValidateIf, Validate } from "class-validator";
+import { CpfValidator, CnpjValidator } from "src/common/validators/cpf-cnpj.validator";
 
-
-export class RegisterAuthPFDto {
+export class LoginAuthDto {
 
     @IsString()
-    username: string;
+    @IsNotEmpty()
+    @ValidateIf((o) => !o.email && !o.cpf && !o.cnpj) 
+    username?: string;
 
     @IsEmail()
-    email: string;
+    @IsNotEmpty()
+    @ValidateIf((o) => !o.username && !o.cpf && !o.cnpj) 
+    email?: string;
 
-    @IsNumberString()
-    cpf: string;
+    @IsNotEmpty()
+    @Validate(CpfValidator)
+    @ValidateIf((o) => !o.username && !o.email && !o.cnpj) 
+    cpf?: string;
 
-    @IsNumberString()
-    cnpj: string;
+    @IsNotEmpty()
+    @Validate(CnpjValidator)
+    @ValidateIf((o) => !o.username && !o.email && !o.cpf) 
+    cnpj?: string;
 
-    //mudar para @IsStrongPassword no futuro
+    //Fazer Verificação de senha forte no Front-End.
     @IsString()
     @IsNotEmpty()
     password: string;
-
 }

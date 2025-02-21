@@ -1,26 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { RegisterAuthPFDto  } from './dto/register-authPF.dto';
-import { RegisterAuthPJDto} from './dto/register-authPJ.dto';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { UserService } from 'src/user/user.service'; //implementar userService (esperando o Primas)
+import { LoginAuthDto } from './dto/login-auth.dto';
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: RegisterAuthPFDto ) {
-    return 'This action adds a new auth';
-  }
+      constructor(private readonly userService: UserService) {}
 
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: RegisterAuthPJDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
-  }
+      async login(dto: LoginAuthDto) {
+        const { username, email, cpf, cnpj, password } = dto;
+        let user;
+    
+        if (email) {
+          user = await this.userService.findByEmail(email);
+        } else if (username) {
+          user = await this.userService.findByUsername(username);
+        } else if (cpf) {
+          user = await this.userService.findByCpf(cpf.replace(/\D/g, '')); 
+        } else if (cnpj) {
+          user = await this.userService.findByCnpj(cnpj.replace(/\D/g, '')); 
+        }
+    
+        if (!user) {
+          throw new UnauthorizedException('Usuário não encontrado!');
+        }
+    
+        const passwordValid = await compare(password, user.password); 
+        if (!passwordValid) {
+          throw new UnauthorizedException('Senha incorreta!');
+        }
+    
+        return { message: "Login realizado com sucesso!", user };
+      }
 }
