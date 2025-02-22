@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model UserPF {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  username  String   @unique
+  firstName String
+  lastName  String
+  email     String   @unique
+  hashPassword String
+  telephone  String
+  cpf       String   @unique
+  creationDate  DateTime @default(now())
+  status    String   @default("ativo")
+
+  tasks     Task[]   @relation("UserPFTasks")
+}
+
+model UserPJ {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  username  String   @unique
+  firstName String
+  lastName  String
+  email     String   @unique
+  hashPassword String
+  telephone  String
+  cnpj      String   @unique
+  creationDate  DateTime @default(now())
+  status    String   @default("ativo")
+
+  tasks     Task[]   @relation("UserPJTasks")
+}
+
+model Task {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  description   String
+  price       Float
+  category   String
+  userPFId    String?  @db.ObjectId
+  userPJId    String?  @db.ObjectId
+  status      String   @default("disponível")
+  creationDate    DateTime @default(now())
+
+  userPF  UserPF? @relation(fields: [userPFId], references: [id], name: "UserPFTasks")
+  userPJ  UserPJ? @relation(fields: [userPJId], references: [id], name: "UserPJTasks")
+}
