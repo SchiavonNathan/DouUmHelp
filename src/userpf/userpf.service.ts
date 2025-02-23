@@ -15,7 +15,7 @@ export class UserPFService {
     }
 
     async getAllUserPF() {
-        return this.prisma.userPF.findMany();  // Método para buscar todos os usuários PF
+        return this.prisma.userPF.findMany();
       }
 
     async deleteUserPF(id: string) {
@@ -27,10 +27,8 @@ export class UserPFService {
       }
     
     async findByUsername(username: string) {
-        return this.prisma.userPF.findUnique({
-            where: { email: username },  // Alternativa com email ou outro campo único
-        });
-    }    
+    return this.prisma.userPF.findUnique({ where: { username } });
+    }
 
     async findByCpf(cpf: string) {
     return this.prisma.userPF.findUnique({ where: { cpf } });
