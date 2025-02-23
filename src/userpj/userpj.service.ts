@@ -14,6 +14,10 @@ export class UserPJService {
     return this.prisma.userPJ.findUnique({ where: { id } });
   }
 
+  async getAllUserPF() {
+    return this.prisma.userPF.findMany();
+  }
+
   async deleteUserPJ(id: string) {
     return this.prisma.userPJ.delete({ where: { id } });
   }
@@ -23,10 +27,8 @@ export class UserPJService {
   }
 
   async findByUsername(username: string) {
-        return this.prisma.userPJ.findUnique({
-            where: { email: username },  // Alternativa com email ou outro campo único
-        });
-    }    
+    return this.prisma.userPJ.findUnique({ where: { username } });
+  }   
 
   async findByCnpj(cnpj: string) {
     return this.prisma.userPJ.findUnique({ where: { cnpj } });

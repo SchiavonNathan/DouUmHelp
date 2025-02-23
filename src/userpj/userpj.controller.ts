@@ -19,4 +19,9 @@ export class UserPJController {
   deleteUserPJ(@Param('id') id: string) {
     return this.userPJService.deleteUserPJ(id);
   }
+
+  @Get()
+    getAllUserPF() {
+        return this.userPJService.getAllUserPF();
+    }
 }
