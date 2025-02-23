@@ -1,0 +1,20 @@
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: douumhelperson
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_home:/var/mongo_home
+
+networks:
+  mongo_network:
+    driver: bridge
+
+volumes:
+  mongo_home:
+ 
