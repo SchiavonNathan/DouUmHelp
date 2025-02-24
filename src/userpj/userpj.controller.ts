@@ -22,6 +22,6 @@ export class UserPJController {
 
   @Get()
     getAllUserPF() {
-        return this.userPJService.getAllUserPF();
+        return this.userPJService.getAllUserPJ();
     }
 }

@@ -1,13 +1,27 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from '../prisma/prisma.service';
+import { RegisterAuthPFDto } from "src/auth/dto/register-authPF.dto";
+import * as bcrypt from 'bcrypt'
 
 
 @Injectable()
 export class UserPFService {
     constructor(private prisma: PrismaService) {}
 
-    async createUserPF(data: any) {
-        return this.prisma.userPF.create({ data })
+    async createUserPF(data: RegisterAuthPFDto) {
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+    
+        return this.prisma.userPF.create({
+            data: {
+                username: data.username,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                hashPassword: hashedPassword, 
+                cpf: data.cpf,
+                telephone: data.telephone,
+            }
+        });
     }
 
     async getUserPF(id: string) {
@@ -33,4 +47,9 @@ export class UserPFService {
     async findByCpf(cpf: string) {
     return this.prisma.userPF.findUnique({ where: { cpf } });
     }
+    
+    async updateUserPF(id: string, data: any) {
+        return this.prisma.userPF.update({ where: { id }, data, });
+    }
+    
 }

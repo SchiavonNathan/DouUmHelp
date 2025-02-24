@@ -20,7 +20,7 @@ export class UserPFController {
         return this.userPFService.deleteUserPF(id);
     }
 
-    @Get()  // Endpoint para listar todos os usuários PF
+    @Get()  
     getAllUserPF() {
         return this.userPFService.getAllUserPF();
     }

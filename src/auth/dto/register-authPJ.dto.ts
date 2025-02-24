@@ -4,11 +4,20 @@ import { CnpjValidator } from "src/common/validators/cpf-cnpj.validator";
 
 export class RegisterAuthPJDto {
 
+    
     @IsString()
     @IsNotEmpty()
     @MinLength(4)
     @MaxLength(20)
     username: string;
+
+    @IsString()
+    @IsNotEmpty()
+    firstName: string;
+
+    @IsString()
+    @IsNotEmpty()
+    lastName: string;
 
     @IsEmail()
     @IsNotEmpty()
@@ -26,6 +35,6 @@ export class RegisterAuthPJDto {
 
     @IsPhoneNumber("BR")
     @IsNotEmpty()
-    phone: string;
+    telephone: string;
 
 }

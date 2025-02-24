@@ -10,15 +10,23 @@ export class RegisterAuthPFDto {
     @MaxLength(20)
     username: string;
 
+    @IsString()
+    @IsNotEmpty()
+    firstName: string;
+
+    @IsString()
+    @IsNotEmpty()
+    lastName: string;
+
     @IsEmail()
     @IsNotEmpty()
     email: string;
 
-    //Mudar para @IsStrongPassword no futuro.
+    //Mudar para @IsStrongPassword no futuro
     @IsString()
     @IsNotEmpty()
     @MinLength(8)
-    password: string;
+    password: string; 
 
     @IsNotEmpty()
     @Validate(CpfValidator)
@@ -26,6 +34,6 @@ export class RegisterAuthPFDto {
 
     @IsPhoneNumber("BR")
     @IsNotEmpty()
-    phone: string;
-
+    telephone: string;
+    
 }
