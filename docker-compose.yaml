@@ -1,15 +1,25 @@
 services:
 
-  mongo:
-    image: mongo
+  db:
+    image: postgres
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: douumhelperson
-    ports:
-      - 27017:27017
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: senhafodastica
     volumes:
       - mongo_home:/var/mongo_home
+    ports:
+      - 5432:5432
+    networks:
+      - mongo_network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8090:8080
+    networks:
+      - mongo_network
 
 networks:
   mongo_network:
@@ -17,4 +27,4 @@ networks:
 
 volumes:
   mongo_home:
- 
+
