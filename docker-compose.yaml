@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: senhafodastica
     volumes:
-      - mongo_home:/var/mongo_home
+      - postgres_home:/var/postgres_home
     ports:
       - 5432:5432
     networks:
@@ -26,5 +26,5 @@ networks:
     driver: bridge
 
 volumes:
-  mongo_home:
+  postgres_home:
 
